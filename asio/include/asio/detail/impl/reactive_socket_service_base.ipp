@@ -236,18 +236,21 @@ void reactive_socket_service_base::start_op(
     int op_type, reactor_op* op, bool is_continuation,
     bool is_non_blocking, bool noop)
 {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   if (!noop)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     if ((impl.state_ & socket_ops::non_blocking)
         || socket_ops::set_internal_non_blocking(
           impl.socket_, impl.state_, true, op->ec_))
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       reactor_.start_op(op_type, impl.socket_,
           impl.reactor_data_, op, is_continuation, is_non_blocking);
       return;
     }
   }
-
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   reactor_.post_immediate_completion(op, is_continuation);
 }
 
@@ -273,11 +276,14 @@ void reactive_socket_service_base::start_connect_op(
       || socket_ops::set_internal_non_blocking(
         impl.socket_, impl.state_, true, op->ec_))
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     if (socket_ops::connect(impl.socket_, addr, addrlen, op->ec_) != 0)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       if (op->ec_ == asio::error::in_progress
           || op->ec_ == asio::error::would_block)
       {
+        std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
         op->ec_ = asio::error_code();
         reactor_.start_op(reactor::connect_op, impl.socket_,
             impl.reactor_data_, op, is_continuation, false);
@@ -285,7 +291,7 @@ void reactive_socket_service_base::start_connect_op(
       }
     }
   }
-
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   reactor_.post_immediate_completion(op, is_continuation);
 }
 

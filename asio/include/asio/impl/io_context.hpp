@@ -237,6 +237,7 @@ io_context::executor_type::context() const ASIO_NOEXCEPT
 inline void
 io_context::executor_type::on_work_started() const ASIO_NOEXCEPT
 {
+  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   io_context_.impl_.work_started();
 }
 

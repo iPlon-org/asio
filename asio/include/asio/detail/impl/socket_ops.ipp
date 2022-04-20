@@ -402,6 +402,7 @@ bool set_user_non_blocking(socket_type s,
 bool set_internal_non_blocking(socket_type s,
     state_type& state, bool value, asio::error_code& ec)
 {
+  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   if (s == invalid_socket)
   {
     ec = asio::error::bad_descriptor;

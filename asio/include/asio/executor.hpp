@@ -133,6 +133,7 @@ public:
   /// Inform the executor that it has some outstanding work to do.
   void on_work_started() const ASIO_NOEXCEPT
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     get_impl()->on_work_started();
   }
 

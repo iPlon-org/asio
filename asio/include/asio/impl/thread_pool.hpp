@@ -40,6 +40,7 @@ thread_pool::executor_type::context() const ASIO_NOEXCEPT
 inline void
 thread_pool::executor_type::on_work_started() const ASIO_NOEXCEPT
 {
+  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   pool_.scheduler_.work_started();
 }
 

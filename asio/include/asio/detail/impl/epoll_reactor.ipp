@@ -232,6 +232,8 @@ void epoll_reactor::start_op(int op_type, socket_type descriptor,
     epoll_reactor::per_descriptor_data& descriptor_data, reactor_op* op,
     bool is_continuation, bool allow_speculative)
 {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
+
   if (!descriptor_data)
   {
     op->ec_ = asio::error::bad_descriptor;

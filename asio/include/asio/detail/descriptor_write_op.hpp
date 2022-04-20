@@ -42,10 +42,12 @@ public:
       descriptor_(descriptor),
       buffers_(buffers)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   }
 
   static status do_perform(reactor_op* base)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     descriptor_write_op_base* o(static_cast<descriptor_write_op_base*>(base));
 
     buffer_sequence_adapter<asio::const_buffer,
@@ -80,6 +82,7 @@ public:
       handler_(ASIO_MOVE_CAST(Handler)(handler)),
       io_executor_(io_ex)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     handler_work<Handler, IoExecutor>::start(handler_, io_executor_);
   }
 
@@ -87,6 +90,7 @@ public:
       const asio::error_code& /*ec*/,
       std::size_t /*bytes_transferred*/)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     // Take ownership of the handler object.
     descriptor_write_op* o(static_cast<descriptor_write_op*>(base));
     ptr p = { asio::detail::addressof(o->handler_), o, o };
@@ -104,12 +108,14 @@ public:
       handler(o->handler_, o->ec_, o->bytes_transferred_);
     p.h = asio::detail::addressof(handler.handler_);
     p.reset();
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
 
     // Make the upcall if required.
     if (owner)
     {
       fenced_block b(fenced_block::half);
       ASIO_HANDLER_INVOCATION_BEGIN((handler.arg1_, handler.arg2_));
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       w.complete(handler, handler.handler_);
       ASIO_HANDLER_INVOCATION_END;
     }

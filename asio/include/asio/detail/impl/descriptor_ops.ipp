@@ -87,18 +87,22 @@ bool set_user_non_blocking(int d, state_type& state,
   }
 
   errno = 0;
-#if defined(__SYMBIAN32__)
+#if defined(__SYMBIAN32__)  || defined(ESP_PLATFORM)
   int result = error_wrapper(::fcntl(d, F_GETFL, 0), ec);
   if (result >= 0)
   {
     errno = 0;
     int flag = (value ? (result | O_NONBLOCK) : (result & ~O_NONBLOCK));
     result = error_wrapper(::fcntl(d, F_SETFL, flag), ec);
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
+
   }
 #else // defined(__SYMBIAN32__)
   ioctl_arg_type arg = (value ? 1 : 0);
   int result = error_wrapper(::ioctl(d, FIONBIO, &arg), ec);
 #endif // defined(__SYMBIAN32__)
+
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
 
   if (result >= 0)
   {
@@ -112,8 +116,11 @@ bool set_user_non_blocking(int d, state_type& state,
       // operations will need to re-enable non-blocking I/O.
       state &= ~(user_set_non_blocking | internal_non_blocking);
     }
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
+
     return true;
   }
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
 
   return false;
 }
@@ -121,6 +128,8 @@ bool set_user_non_blocking(int d, state_type& state,
 bool set_internal_non_blocking(int d, state_type& state,
     bool value, asio::error_code& ec)
 {
+  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
+
   if (d == -1)
   {
     ec = asio::error::bad_descriptor;
@@ -133,17 +142,21 @@ bool set_internal_non_blocking(int d, state_type& state,
     // user still wants non-blocking behaviour. Return an error and let the
     // caller figure out whether to update the user-set non-blocking flag.
     ec = asio::error::invalid_argument;
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
     return false;
   }
 
   errno = 0;
-#if defined(__SYMBIAN32__)
+#if defined(__SYMBIAN32__) || defined(ESP_PLATFORM)
   int result = error_wrapper(::fcntl(d, F_GETFL, 0), ec);
   if (result >= 0)
   {
     errno = 0;
     int flag = (value ? (result | O_NONBLOCK) : (result & ~O_NONBLOCK));
     result = error_wrapper(::fcntl(d, F_SETFL, flag), ec);
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
+
+
   }
 #else // defined(__SYMBIAN32__)
   ioctl_arg_type arg = (value ? 1 : 0);
@@ -157,9 +170,12 @@ bool set_internal_non_blocking(int d, state_type& state,
       state |= internal_non_blocking;
     else
       state &= ~internal_non_blocking;
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
+
     return true;
   }
 
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<std::endl;
   return false;
 }
 
@@ -292,6 +308,8 @@ std::size_t sync_write(int d, state_type state, const buf* bufs,
 bool non_blocking_write(int d, const buf* bufs, std::size_t count,
     asio::error_code& ec, std::size_t& bytes_transferred)
 {
+
+  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   for (;;)
   {
     // Write some data.

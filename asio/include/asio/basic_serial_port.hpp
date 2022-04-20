@@ -699,6 +699,8 @@ public:
       ASIO_MOVE_ARG(WriteHandler) handler
         ASIO_DEFAULT_COMPLETION_TOKEN(executor_type))
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
+
     return async_initiate<WriteHandler,
       void (asio::error_code, std::size_t)>(
         initiate_async_write_some(this), handler, buffers);
@@ -832,6 +834,8 @@ private:
     explicit initiate_async_write_some(basic_serial_port* self)
       : self_(self)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
+
     }
 
     executor_type get_executor() const ASIO_NOEXCEPT
@@ -846,6 +850,7 @@ private:
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a WriteHandler.
       ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
 
       detail::non_const_lvalue<WriteHandler> handler2(handler);
       self_->impl_.get_service().async_write_some(

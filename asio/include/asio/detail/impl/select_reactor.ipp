@@ -143,6 +143,9 @@ void select_reactor::start_op(int op_type, socket_type descriptor,
     select_reactor::per_descriptor_data&, reactor_op* op,
     bool is_continuation, bool)
 {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
+
+
   asio::detail::mutex::scoped_lock lock(mutex_);
 
   if (shutdown_)

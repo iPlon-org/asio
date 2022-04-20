@@ -41,6 +41,7 @@ public:
     : executor_(e),
       owns_(true)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     executor_.on_work_started();
   }
 
@@ -49,6 +50,7 @@ public:
     : executor_(other.executor_),
       owns_(other.owns_)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     if (owns_)
       executor_.on_work_started();
   }

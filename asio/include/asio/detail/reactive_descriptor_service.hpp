@@ -158,6 +158,7 @@ public:
   asio::error_code native_non_blocking(implementation_type& impl,
       bool mode, asio::error_code& ec)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     descriptor_ops::set_internal_non_blocking(
         impl.descriptor_, impl.state_, mode, ec);
     return ec;
@@ -258,6 +259,7 @@ public:
       const ConstBufferSequence& buffers, Handler& handler,
       const IoExecutor& io_ex)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 
@@ -269,10 +271,11 @@ public:
 
     ASIO_HANDLER_CREATION((reactor_.context(), *p.p, "descriptor",
           &impl, impl.descriptor_, "async_write_some"));
-
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     start_op(impl, reactor::write_op, p.p, is_continuation, true,
         buffer_sequence_adapter<asio::const_buffer,
           ConstBufferSequence>::all_empty(buffers));
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     p.v = p.p = 0;
   }
 
@@ -281,6 +284,7 @@ public:
   void async_write_some(implementation_type& impl,
       const null_buffers&, Handler& handler, const IoExecutor& io_ex)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     bool is_continuation =
       asio_handler_cont_helpers::is_continuation(handler);
 

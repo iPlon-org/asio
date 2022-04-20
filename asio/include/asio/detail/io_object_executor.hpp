@@ -77,6 +77,7 @@ public:
 
   void on_work_started() const ASIO_NOEXCEPT
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     if (is_same<Executor, io_context::executor_type>::value
         || has_native_impl_)
     {

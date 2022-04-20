@@ -48,6 +48,7 @@ public:
   static void start(Handler& handler) ASIO_NOEXCEPT
   {
     HandlerExecutor ex(asio::get_associated_executor(handler));
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     ex.on_work_started();
   }
 
@@ -55,8 +56,11 @@ public:
       const IoExecutor& io_ex) ASIO_NOEXCEPT
   {
     HandlerExecutor ex(asio::get_associated_executor(handler, io_ex));
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     ex.on_work_started();
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     io_ex.on_work_started();
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   }
 
   ~handler_work()

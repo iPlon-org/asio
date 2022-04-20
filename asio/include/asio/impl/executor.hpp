@@ -165,6 +165,7 @@ public:
 
   void on_work_started() ASIO_NOEXCEPT
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     executor_.on_work_started();
   }
 

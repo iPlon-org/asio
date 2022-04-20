@@ -291,6 +291,7 @@ namespace detail
         start_(0),
         handler_(ASIO_MOVE_CAST(WriteHandler)(handler))
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     }
 
 #if defined(ASIO_HAS_MOVE)
@@ -301,6 +302,7 @@ namespace detail
         start_(other.start_),
         handler_(other.handler_)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     }
 
     write_op(write_op&& other)
@@ -312,27 +314,37 @@ namespace detail
         start_(other.start_),
         handler_(ASIO_MOVE_CAST(WriteHandler)(other.handler_))
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     }
 #endif // defined(ASIO_HAS_MOVE)
 
     void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred, int start = 0)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<std::endl;
       std::size_t max_size;
       switch (start_ = start)
       {
         case 1:
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<std::endl;
         max_size = this->check_for_completion(ec, buffers_.total_consumed());
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
         do
         {
           stream_.async_write_some(buffers_.prepare(max_size),
               ASIO_MOVE_CAST(write_op)(*this));
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
           return; default:
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
           buffers_.consume(bytes_transferred);
-          if ((!ec && bytes_transferred == 0) || buffers_.empty())
-            break;
+          if ((!ec && bytes_transferred == 0) || buffers_.empty()){
+                  std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
+            break;}
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
           max_size = this->check_for_completion(ec, buffers_.total_consumed());
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
         } while (max_size > 0);
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<", ec="<<ec.message()<<", start="<<start<<", bytes_transferred="<<bytes_transferred<<", max_size="<<max_size<<std::endl;
 
         handler_(ec, buffers_.total_consumed());
       }
@@ -439,6 +451,7 @@ namespace detail
         const ConstBufferSequence& buffers,
         ASIO_MOVE_ARG(CompletionCondition) completion_cond) const
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a WriteHandler.
       ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;
@@ -578,6 +591,7 @@ namespace detail
     void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred, int start = 0)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       switch (start)
       {
         case 1:
@@ -671,6 +685,7 @@ namespace detail
         ASIO_MOVE_ARG(DynamicBuffer_v1) buffers,
         ASIO_MOVE_ARG(CompletionCondition) completion_cond) const
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a WriteHandler.
       ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;
@@ -848,6 +863,7 @@ namespace detail
     void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred, int start = 0)
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       switch (start)
       {
         case 1:
@@ -941,6 +957,7 @@ namespace detail
         ASIO_MOVE_ARG(DynamicBuffer_v2) buffers,
         ASIO_MOVE_ARG(CompletionCondition) completion_cond) const
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a WriteHandler.
       ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;

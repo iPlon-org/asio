@@ -580,6 +580,7 @@ public:
   std::size_t write_some(const ConstBufferSequence& buffers,
       asio::error_code& ec)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     return detail::io(next_layer_, core_,
         detail::write_op<ConstBufferSequence>(buffers), ec);
   }
@@ -828,6 +829,7 @@ private:
     void operator()(ASIO_MOVE_ARG(WriteHandler) handler,
         const ConstBufferSequence& buffers) const
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       // If you get an error on the following line it means that your handler
       // does not meet the documented type requirements for a WriteHandler.
       ASIO_WRITE_HANDLER_CHECK(WriteHandler, handler) type_check;

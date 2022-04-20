@@ -195,18 +195,22 @@ void reactive_descriptor_service::start_op(
     int op_type, reactor_op* op, bool is_continuation,
     bool is_non_blocking, bool noop)
 {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
+
   if (!noop)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     if ((impl.state_ & descriptor_ops::non_blocking) ||
         descriptor_ops::set_internal_non_blocking(
           impl.descriptor_, impl.state_, true, op->ec_))
     {
+      std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
       reactor_.start_op(op_type, impl.descriptor_,
           impl.reactor_data_, op, is_continuation, is_non_blocking);
       return;
     }
   }
-
+std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   reactor_.post_immediate_completion(op, is_continuation);
 }
 

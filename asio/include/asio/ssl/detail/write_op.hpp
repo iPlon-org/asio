@@ -33,12 +33,14 @@ public:
   write_op(const ConstBufferSequence& buffers)
     : buffers_(buffers)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
   }
 
   engine::want operator()(engine& eng,
       asio::error_code& ec,
       std::size_t& bytes_transferred) const
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     asio::const_buffer buffer =
       asio::detail::buffer_sequence_adapter<asio::const_buffer,
         ConstBufferSequence>::first(buffers_);

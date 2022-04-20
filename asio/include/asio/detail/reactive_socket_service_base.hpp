@@ -162,6 +162,7 @@ public:
   asio::error_code native_non_blocking(base_implementation_type& impl,
       bool mode, asio::error_code& ec)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     socket_ops::set_internal_non_blocking(impl.socket_, impl.state_, mode, ec);
     return ec;
   }

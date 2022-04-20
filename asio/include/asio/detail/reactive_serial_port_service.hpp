@@ -160,6 +160,7 @@ public:
       const ConstBufferSequence& buffers,
       Handler& handler, const IoExecutor& io_ex)
   {
+    std::cerr << __FILE__<<":"<<__LINE__<<"   "<<__PRETTY_FUNCTION__<<std::endl;
     descriptor_service_.async_write_some(impl, buffers, handler, io_ex);
   }
 
